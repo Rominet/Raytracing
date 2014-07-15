@@ -29,13 +29,17 @@ public:
 	void setGlobalValue(T val);
 	template <typename T2>
 	void setValues(const T2 values[], int valNum);
+	void initIdentity();
 
 	// Operators
 	Matrix<T, Rows, Cols>& operator+=(const Matrix<T, Rows, Cols> &m);
 	const Matrix<T, Rows, Cols> operator+(const Matrix<T, Rows, Cols>& m) const;
 	Matrix<T, Rows, Cols>& operator*=(T factor);	
+	Matrix<T, Rows, Cols> operator*(T factor) const;
 	template<unsigned int Cols2>
 	const Matrix<T, Rows, Cols2> operator*(const Matrix<T, Cols, Cols2>& m) const;
+	template<unsigned int Cols2>
+	Matrix<T, Rows, Cols2> operator*=(const Matrix<T, Cols, Cols2>& m);
 
 	T& operator()(int row, int col) const;
 
@@ -137,6 +141,13 @@ void Matrix<T, Rows, Cols>::setGlobalValue(T val)
 		_values[pos] = val;
 }
 
+template<typename T, unsigned int Rows, unsigned int Cols>
+void Matrix<T, Rows, Cols>::initIdentity()
+{
+	for (int pos = 0; pos < Rows; pos++)
+		_values[pos * Rows + pos] = 1;
+}
+
 /*
  * ---------- Operators ----------
  */
@@ -162,6 +173,15 @@ Matrix<T, Rows, Cols>& Matrix<T, Rows, Cols>::operator*=(T factor)
 {
 	for (int pos = 0; pos < Rows * Cols; pos++)
 		_values[pos] *= factor;
+	return *this;
+}
+
+template<typename T, unsigned int Rows, unsigned int Cols>
+Matrix<T, Rows, Cols> Matrix<T, Rows, Cols>::operator*(T factor) const
+{
+	Matrix<T, Rows, Cols> tmp(*this);
+	for (int pos = 0; pos < Rows * Cols; pos++)
+		tmp.getValues()[pos] *= factor;
 	return tmp;
 }
 
@@ -179,6 +199,17 @@ const Matrix<T, Rows, Cols2> Matrix<T, Rows, Cols>::operator*(const Matrix<T, Co
 }
 
 template<typename T, unsigned int Rows, unsigned int Cols>
+template<unsigned int Cols2>
+Matrix<T, Rows, Cols2> Matrix<T, Rows, Cols>::operator*=(const Matrix<T, Cols, Cols2>& m)
+{
+	for (int row = 0; row < Rows; row++)
+		for (int col2 = 0; col2 < Cols2; col2++)
+			for (int col = 0; col < Cols; col++)
+				(*this)(row, col2) += (*this)(row, col) * m(col, col2);
+	return (*this);
+}
+
+template<typename T, unsigned int Rows, unsigned int Cols>
 T& Matrix<T, Rows, Cols>::operator()(int row, int col) const
 {
 	return getValues()[row * Cols + col];
@@ -189,7 +220,7 @@ T& Matrix<T, Rows, Cols>::operator()(int row, int col) const
  */
 
 template <typename T>
-Matrix<T, 4, 4> createXRotateMatrix(int angle)
+Matrix<T, 4, 4> createXRotateMatrix(T angle)
 {
 	T matrixTab[] = {1, 0, 0, 0,
 					0, cos(angle), -sin(angle), 0,
@@ -200,7 +231,7 @@ Matrix<T, 4, 4> createXRotateMatrix(int angle)
 }
 
 template <typename T>
-Matrix<T, 4, 4> createYRotateMatrix(int angle)
+Matrix<T, 4, 4> createYRotateMatrix(T angle)
 {
 	T matrixTab[] = {cos(angle), 0, sin(angle), 0,
 					0, 1, 0, 0,
@@ -211,7 +242,7 @@ Matrix<T, 4, 4> createYRotateMatrix(int angle)
 }
 
 template <typename T>
-Matrix<T, 4, 4> createZRotateMatrix(int angle)
+Matrix<T, 4, 4> createZRotateMatrix(T angle)
 {
 	T matrixTab[] = {cos(angle), -sin(angle),0, 0,
 					sin(angle), cos(angle), 0, 0,
@@ -244,26 +275,26 @@ Matrix<T, 4, 4> createTranslateMatrix(T tx, T ty, T tz)
 }
 
 template<typename T>
-Matrix<T, 4, 1> toHomogenous(const Matrix<T, 3, 1> &vect)
+Matrix<T, 1, 4> toHomogenous(const Matrix <T, 1, 3> vect)
 {
-	Matrix<T, 4, 1> m(vect.getValues(), 3);
+	Matrix<T, 1, 4> m(vect.getValues(), 3);
 	
-	m(3, 0) = 1;
+	m(0, 3) = 1;
 	return  m;
 }
 
-template<typename T, unsigned int Rows>
-Matrix<T, Rows - 1, 1> fromHomogenous(const Matrix<T, Rows, 1> &m)
+template<typename T, unsigned int Cols>
+Matrix<T, 1, Cols - 1> fromHomogenous(const Matrix<T, 1, Cols> &m)
 {
-	T* tempValue = new T[Rows - 1];
-	T last = m.getValues()[Rows - 1];
+	T* tempValue = new T[Cols - 1];
+	T last = m.getValues()[Cols - 1];
 
-	for (int i = 0; i < Rows - 1; i++)
+	for (int i = 0; i < Cols - 1; i++)
 	{
 		if (last != 0)
 			tempValue[i] = m.getValues()[i] / last;
 	}
-	return Matrix<T, Rows - 1, 1>(tempValue, Rows - 1);
+	return Matrix<T, 1, Cols - 1>(tempValue, Cols - 1);
 }
 
 //typedef Matrix<double, 1, 3> Vec3d;
