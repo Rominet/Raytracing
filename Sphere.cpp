@@ -2,6 +2,11 @@
 #include "Shape.hpp"
 #include "Vec3d.hpp"
 
+Sphere::Sphere(void)
+{
+	this->radius = 1.0;
+}
+
 Sphere::Sphere(double radius)
 {
 	this->radius = radius;
@@ -19,7 +24,7 @@ double Sphere::getRadius() const
 
 bool Sphere::isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &intersectNormal) const
 {
-	Ray localRay = ray.getLocalRay(getTransform());
+	Ray localRay = ray.getLocalRay(*Shape::getTransform());
 	Point3d localCenter;
 
 	double OH = Vec3d(localRay.getOrigin(), localCenter).scalarProduct(localRay.getDirection());
@@ -50,7 +55,9 @@ bool Sphere::isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &in
 	// Find intersection point
 	Matrix<double, 1, 3> dirMultTmin = localRay.getDirection() * tmin;
 	Matrix<double, 1, 3> localIntersectPoint = localRay.getOrigin() + dirMultTmin;
-	intersectPoint = toHomogenous(localIntersectPoint) * getTransform().getTransformation();
-	intersectNormal = toHomogenous(Vec3d(getTransform().getPosition(), intersectPoint).normalize()) * getTransform().getTransformation();
+	Matrix<double, 4, 4> transformation = *Shape::getTransform()->getTransformation();
+
+	intersectPoint = toHomogenous(localIntersectPoint) * transformation;
+	intersectNormal = toHomogenous(Vec3d(*getTransform()->getPosition(), intersectPoint).normalize()) * transformation;
 	return true;
 }

@@ -2,7 +2,7 @@
 #include "Point3d.hpp"
 #include "Vec3d.hpp"
 #include "Ray.hpp"
-#include "Transform.h"
+#include "Transform.hpp"
 
 enum CamProjectionType { PERSPECTIVE, ISOMETRIC };
 
@@ -14,7 +14,7 @@ protected:
 	int width;
 	int height;
 
-	Transform transform;
+	Transform *transform;
 
 public:
 	Camera();

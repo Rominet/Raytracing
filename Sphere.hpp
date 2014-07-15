@@ -8,6 +8,7 @@ private:
 	double radius;
 
 public:
+	Sphere(void);
 	Sphere(double radius);
 	~Sphere(void);
 

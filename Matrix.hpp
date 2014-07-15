@@ -29,6 +29,7 @@ public:
 	void setGlobalValue(T val);
 	template <typename T2>
 	void setValues(const T2 values[], int valNum);
+	void setValues(const Matrix < T, Rows, Cols> &m);
 	void initIdentity();
 
 	// Operators
@@ -45,12 +46,12 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const Matrix & m)
 	{
-		os << "Matrix :" << endl;
+		os << "Matrix :" << std::endl;
 		for (int row = 0; row < Rows; row++)
 		{
 			for (int col = 0; col < Cols; col++)
 				os << m(row, col) << " ";
-			os << endl;
+			os << std::endl;
 		}
 		return os;
 	}
@@ -123,6 +124,13 @@ void Matrix<T, Rows, Cols>::setValues(const T2 values[], int valNum)
 		this->_values[i] = values[i];
 }
 
+template<typename T, unsigned int Rows, unsigned int Cols>
+void Matrix<T, Rows, Cols>::setValues(const Matrix<T, Rows, Cols> &m)
+{
+	for (int i = 0; i < Rows * Cols; i++)
+		this->_values[i] = m.getValues()[i];
+}
+
 /*
  * ---------- Methods ----------
  */
@@ -130,7 +138,7 @@ void Matrix<T, Rows, Cols>::setValues(const T2 values[], int valNum)
 template<typename T, unsigned int Rows, unsigned int Cols>
 void Matrix<T, Rows, Cols>::construct()
 {
-	_values = new T[Rows * Cols];
+	this->_values = new T[Rows * Cols];
 	setGlobalValue(0);
 }
 

@@ -86,7 +86,7 @@
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Shape.hpp" />
     <ClInclude Include="Sphere.hpp" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Vec3d.hpp" />
   </ItemGroup>
   <ItemGroup>

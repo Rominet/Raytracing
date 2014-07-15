@@ -1,13 +1,15 @@
 #include "Raytracer.hpp"
 #include "Camera.hpp"
 
-Raytracer::Raytracer(Scene s)
+Raytracer::Raytracer(Scene *s)
 {
+	this->scene = s;
 }
 
 
 Raytracer::~Raytracer()
 {
+	delete image;
 }
 
 
@@ -40,12 +42,13 @@ void Raytracer::renderScene()
 
 	std::cout << "Rendering scene ..." << std::endl;
 
-	width = scene.getCamera().getWidth();
-	height = scene.getCamera().getHeight();
+	width = scene->getCamera()->getWidth();
+	height = scene->getCamera()->getHeight();
 
-	/* initialisation du buffer pour l'image */
+	// Assign image
 	image = new unsigned char[3 * width * height];
-	/* lancer des rayons */
+	
+	// Raytracing
 	for (h = 0; h < height; h++)
 	{
 		for (w = 0; w < width; w++)
@@ -67,9 +70,9 @@ void Raytracer::launchRays(int h, int w, Color &color)
 	launchRay(ray, 1, color);
 }
 
-Ray Raytracer::createRay(int h, int w) const
+Ray Raytracer::createRay(int h, int w)
 {
-	Camera c = scene.getCamera();
+	Camera c = *scene->getCamera();
 	Point3d pos;
 	Vec3d dir;
 
@@ -89,34 +92,35 @@ void Raytracer::launchRay(Ray ray, int depth, Color &color)
 {
 	Point3d intersect;
 	Vec3d normal;
-	Shape *shape;
+	int numShape;
 
 	if (depth > 0)
 	{
-		if (calcIntersect(ray, intersect, normal, shape))
+		if (calcIntersect(ray, intersect, normal, numShape))
 		{
-			color = calcAmbiantLight(shape, intersect);
+			color = calcAmbiantLight(scene->getShapes()[numShape], intersect);
 		}
 	}
 }
 
 /* calcule l'intersection la plus proche entre le rayon r et la scene s */
-bool Raytracer::calcIntersect(Ray ray, Point3d &intersectPoint, Vec3d &normalIntersect, Shape *shape)
+bool Raytracer::calcIntersect(Ray ray, Point3d &intersectPoint, Vec3d &normalIntersect, int &num)
 {
 	Point3d zero;
 	Point3d intersect;
 	Vec3d normal;
 	bool foundIntersection = false;
 
-	for (unsigned int numShape = 0; numShape < scene.getShapes().size(); ++numShape)
+	for (unsigned int numShape = 0; numShape < scene->getShapes().size(); ++numShape)
 	{
-		if ((*scene.getShapes()[numShape]).isRayIntersecting(ray, intersect, normal))
+		Shape *shape = scene->getShapes()[numShape];
+		if (shape->isRayIntersecting(ray, intersect, normal))
 		{
 			if (!foundIntersection || (foundIntersection && (Vec3d(zero, intersectPoint).squareMagnitude() > Vec3d(zero, intersect).squareMagnitude())))
 			{
 				intersectPoint = Point3d(intersect);
 				normalIntersect = Vec3d(normal);
-				shape = scene.getShapes()[numShape];
+				num = numShape;
 			}
 			foundIntersection = true;
 		}
@@ -128,5 +132,5 @@ Color Raytracer::calcAmbiantLight(Shape *shape, Point3d intersectPoint) const
 {
 	Color objColor = shape->getAmbiantColor(intersectPoint);
 
-	return (objColor * scene.getAmbiantColor());
+	return (objColor * scene->getAmbiantColor());
 }

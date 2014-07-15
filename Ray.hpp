@@ -2,7 +2,7 @@
 
 #include "Vec3d.hpp"
 #include "Point3d.hpp"
-#include "Transform.h"
+#include "Transform.hpp"
 
 class Ray
 {
@@ -18,6 +18,6 @@ public:
 	Point3d getOrigin() const;
 	Vec3d getDirection() const;
 
-	Ray getLocalRay(const Transform transform) const;
+	Ray getLocalRay(Transform transform) const;
 };
 
