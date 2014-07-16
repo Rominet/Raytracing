@@ -3,26 +3,27 @@
 
 Scene::Scene()
 {
-	this->camera = new Camera();
+	this->ambiantColor.setRed(0.5);
+	this->ambiantColor.setGreen(0.5);
+	this->ambiantColor.setBlue(0.5);
 }
 
 
 Scene::~Scene()
 {
-	delete camera;
+
 }
 
 void Scene::addShape(Shape *s)
 {
-	s->getTransform()->calcTransformations();
+	s->getTransform().calcTransformations();
 	shapes.push_back(s);
 }
 
 void Scene::addCamera(Camera c)
 {
-
-	this->camera->setFocal(c.getFocal());
-	this->camera->setWidth(c.getWidth());
-	this->camera->setHeight(c.getHeight());
-	this->camera->setProjectionType(c.getProjectType());
+	this->camera.setFocal(c.getFocal());
+	this->camera.setWidth(c.getWidth());
+	this->camera.setHeight(c.getHeight());
+	this->camera.setProjectionType(c.getProjectType());
 }

@@ -41,6 +41,7 @@ public:
 	const Matrix<T, Rows, Cols2> operator*(const Matrix<T, Cols, Cols2>& m) const;
 	template<unsigned int Cols2>
 	Matrix<T, Rows, Cols2> operator*=(const Matrix<T, Cols, Cols2>& m);
+	Matrix<T, Rows, Cols> &operator=(const Matrix<T, Rows, Cols>& m);
 
 	T& operator()(int row, int col) const;
 
@@ -138,7 +139,8 @@ void Matrix<T, Rows, Cols>::setValues(const Matrix<T, Rows, Cols> &m)
 template<typename T, unsigned int Rows, unsigned int Cols>
 void Matrix<T, Rows, Cols>::construct()
 {
-	this->_values = new T[Rows * Cols];
+	int size = Rows * Cols;
+	this->_values = new T[size];
 	setGlobalValue(0);
 }
 
@@ -221,6 +223,14 @@ template<typename T, unsigned int Rows, unsigned int Cols>
 T& Matrix<T, Rows, Cols>::operator()(int row, int col) const
 {
 	return getValues()[row * Cols + col];
+}
+
+template<typename T, unsigned int Rows, unsigned int Cols>
+Matrix<T, Rows, Cols>& Matrix<T, Rows, Cols>::operator=(const Matrix<T, Rows, Cols>& m)
+{
+	for(int i = 0; i < Rows * Cols; i++)
+		this->_values[i] = m.getValues()[i];
+	return *this;
 }
 
 /*

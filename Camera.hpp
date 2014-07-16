@@ -20,16 +20,16 @@ public:
 	Camera();
 	virtual ~Camera();
 
-	void setFocal(double focal) { this->focal = focal; }
-	double getFocal() const { return this->focal; }
+	inline void setFocal(double focal) { this->focal = focal; }
+	inline double getFocal() const { return this->focal; }
 
-	void setProjectionType(CamProjectionType projectionType) { this->projectionType = projectionType;  }
-	CamProjectionType getProjectType() const { return this->projectionType; }
+	inline void setProjectionType(CamProjectionType projectionType) { this->projectionType = projectionType;  }
+	inline CamProjectionType getProjectType() const { return this->projectionType; }
 	
-	void setWidth(int width) { this->width = width;	}
-	int getWidth() const { return this->width; }
+	inline void setWidth(int width) { this->width = width;	}
+	inline int getWidth() const { return this->width; }
 	
-	void setHeight(int height) { this->height = height; }
-	int getHeight() const { return this->height; }
+	inline void setHeight(int height) { this->height = height; }
+	inline int getHeight() const { return this->height; }
 };
 

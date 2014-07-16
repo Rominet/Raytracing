@@ -8,9 +8,9 @@ private:
 	double radius;
 
 public:
-	Sphere(void);
+	Sphere();
 	Sphere(double radius);
-	~Sphere(void);
+	~Sphere();
 
 	double getRadius() const;
 

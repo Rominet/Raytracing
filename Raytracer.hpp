@@ -9,7 +9,7 @@
 class Raytracer
 {
 private:
-	Scene *scene;
+	Scene scene;
 	int depth;
 
 	double nbRayonsLances;
@@ -18,14 +18,14 @@ private:
 	int width, height;
 	unsigned char *image;
 
-	void launchRays(int x, int y, Color &color);
+	void launchRays(double x, double y, Color &color);
 	void launchRay(Ray ray, int depth, Color &color);
-	Ray createRay(int h, int w);
+	Ray createRay(double h, double w);
 	bool calcIntersect(Ray r, Point3d &intersectPoint, Vec3d &normalIntersect, int &numShape);
 	Color calcAmbiantLight(Shape *shape, Point3d intersectPoint) const;
 
 public:
-	Raytracer(Scene *s);
+	Raytracer(Scene s);
 	~Raytracer();
 
 	void renderScene();

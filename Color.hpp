@@ -18,9 +18,9 @@ public:
 	void setBlue(double blue) { this->blue = blue; }
 	double getBlue() const { return this->blue; }
 
-	unsigned char getRedUC() const { return (unsigned char)(this->red * 255); }
-	unsigned char getGreenUC() const { return (unsigned char)(this->green * 255); }
-	unsigned char getBlueUC() const { return (unsigned char)(this->blue * 255); }
+	inline unsigned char getRedUC() const { return (unsigned char)(this->red * 255); }
+	inline unsigned char getGreenUC() const { return (unsigned char)(this->green * 255); }
+	inline unsigned char getBlueUC() const { return (unsigned char)(this->blue * 255); }
 
 	Color operator*(const Color c) const;
 };
