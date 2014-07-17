@@ -54,7 +54,7 @@ Vec3d Vec3d::operator/=(double d)
 	return *this;
 }
 
-double Vec3d::scalarProduct(const Vec3d other) const
+double Vec3d::scalarProduct(const Vec3d &other) const
 {
 	return (*this)[0] * other[0] + (*this)[1] * other[1] + (*this)[2] * other[2];
 }

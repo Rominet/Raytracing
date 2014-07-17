@@ -15,7 +15,7 @@ public:
 	double magnitude() const;
 	double squareMagnitude() const;
 
-	double scalarProduct(const Vec3d other) const;
+	double scalarProduct(const Vec3d &other) const;
 
 	Vec3d operator/=(double d);
 	double operator[](int pos) const { return _values[pos]; }

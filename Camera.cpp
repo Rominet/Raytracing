@@ -3,17 +3,16 @@
 
 Camera::Camera()
 {
-	//width = 1024;
-	//height = 768;
+	width = 1024;
+	height = 768;
 
-	//focal = 1.0;
-	//projectionType = CamProjectionType::PERSPECTIVE;
-	//this->transform = new Transform();
+	fov = 40.0;
+	projectionType = CamProjectionType::PERSPECTIVE;
 }
 
 
 Camera::~Camera()
 {
-	//delete this->transform;
+
 }
 

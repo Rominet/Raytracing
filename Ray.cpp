@@ -5,7 +5,7 @@ Ray::Ray()
 {
 }
 
-Ray::Ray(Point3d origin, Vec3d direction)
+Ray::Ray(const Point3d &origin, const Vec3d &direction)
 {
 	this->origin.setValues(origin);
 	this->direction.setValues(direction);
@@ -31,7 +31,7 @@ Vec3d Ray::getDirection() const
 	return this->direction;
 }
 
-Ray Ray::getLocalRay(Transform transform) const
+Ray Ray::getLocalRay(const Transform &transform) const
 {
 	Matrix<double, 4, 1> localOrig = toHomogenous(this->origin);
 

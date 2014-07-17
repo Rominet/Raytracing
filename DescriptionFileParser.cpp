@@ -176,7 +176,7 @@ Camera DescriptionFileParser::parseCameraBlock(std::string blockString)
 			if("perspective" == parseLine<std::string>(line))
 			{
 				cameraToAdd.setProjectionType(CamProjectionType::PERSPECTIVE);
-				cameraToAdd.setFocal(parseLine<float>(line));
+				cameraToAdd.setFov(parseLine<float>(line));
 			}
 			else
 			{

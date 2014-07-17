@@ -14,6 +14,6 @@ public:
 
 	double getRadius() const;
 
-	bool isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &intersectNormal) const;
+	bool isRayIntersecting(const Ray &ray, Point3d &intersectPoint, Vec3d &intersectNormal) const;
 };
 
