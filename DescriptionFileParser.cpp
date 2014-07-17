@@ -90,8 +90,8 @@ void DescriptionFileParser::convertStringToBlock(std::string blockString)
 		std::getline(stringStream, line);
 		if("sphere" == parseLine<std::string>(line))
 		{
-			Sphere sph = parseSphereBlock(blockString);
-			_sceneToReturn.addShape(&sph);
+			Sphere *sph = parseSphereBlock(blockString);
+			_sceneToReturn.addShape(sph);
 		}
 	}
 }
@@ -188,32 +188,32 @@ Camera DescriptionFileParser::parseCameraBlock(std::string blockString)
 	return cameraToAdd;
 }
 
-Sphere DescriptionFileParser::parseSphereBlock(std::string blockString)
+Sphere* DescriptionFileParser::parseSphereBlock(std::string blockString)
 {
 	std::istringstream stringStream(blockString);
 	std::string line;
-	Sphere sphereToAdd;
+	Sphere *sphereToAdd = new Sphere();
 
 	Transform trans = parseTransformBlock(blockString);
-	sphereToAdd.setTransform(trans.getPosition(), trans.getRotation(), trans.getScale());
+	sphereToAdd->setTransform(trans.getPosition(), trans.getRotation(), trans.getScale());
 
 	while(std::getline(stringStream, line))
 	{
 		if(stringStartWith(line, "ambiant_coeff"))
 		{
-			sphereToAdd.setAmbiantCoeff(parseLine<Vec3d>(line));
+			sphereToAdd->setAmbiantCoeff(parseLine<Vec3d>(line));
 		}
 		else if(stringStartWith(line, "difuse_coeff"))
 		{
-			sphereToAdd.setDifuseCoeff(parseLine<Vec3d>(line));
+			sphereToAdd->setDifuseCoeff(parseLine<Vec3d>(line));
 		}
 		else if(stringStartWith(line, "spec_coeff"))
 		{
-			sphereToAdd.setSpecularCoeff(parseLine<Vec3d>(line));
+			sphereToAdd->setSpecularCoeff(parseLine<Vec3d>(line));
 		}
 		else if(stringStartWith(line, "alpha"))
 		{
-			sphereToAdd.setAlpha(parseLine<float>(line));
+			sphereToAdd->setAlpha(parseLine<float>(line));
 		}
 	}
 

@@ -41,7 +41,7 @@ public:
 	Transform DescriptionFileParser::parseTransformBlock(std::string blockString);
 	Model parseModelBlock(std::string blockString);
 	Camera parseCameraBlock(std::string blockString);
-	Sphere DescriptionFileParser::parseSphereBlock(std::string blockString);
+	Sphere* DescriptionFileParser::parseSphereBlock(std::string blockString);
 	void parseLightBlock(std::string blockString);
 	void parseObjectBlock(std::string blockString);
 };
