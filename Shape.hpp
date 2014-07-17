@@ -26,7 +26,7 @@ public:
 	Transform *getTransform() const { return this->transform; }
 	void setTransform(Vec3d position, Vec3d rotation, Vec3d scale);
 
-	virtual bool isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &intersectNormal) const = 0;
+	virtual bool isRayIntersecting(const Ray &ray, Point3d &intersectPoint, Vec3d &intersectNormal) const = 0;
 
 	Color getAmbiantColor(Point3d intersect) const;
 };

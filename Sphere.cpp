@@ -22,12 +22,9 @@ double Sphere::getRadius() const
 	return radius;
 }
 
-bool Sphere::isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &intersectNormal) const
+bool Sphere::isRayIntersecting(const Ray &ray, Point3d &intersectPoint, Vec3d &intersectNormal) const
 {
 	Ray localRay = ray.getLocalRay(*getTransform());
-
-	//std::cout << "localRay Origin : " << localRay.getOrigin() << std::endl;
-	//std::cout << "localRay Dir : " << localRay.getDirection() << std::endl;
 
 	Point3d localCenter;
 
@@ -61,12 +58,8 @@ bool Sphere::isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &in
 	Matrix<double, 1, 3> localIntersectPoint = localRay.getOrigin() + dirMultTmin;
 	Matrix<double, 4, 4> transformation = getTransform()->getTransformation();
 
-	std::cout << "Intersection!" << std::endl;
-
 	intersectPoint = transformation * toHomogenous(localIntersectPoint);
 	intersectNormal = transformation * toHomogenous(Vec3d(getTransform()->getPosition(), intersectPoint).normalize());
-
-	std::cout << intersectPoint << std::endl;
 
 	return true;
 }

@@ -38,7 +38,7 @@ void Raytracer::saveScene(char *fileName)
 		{
 			for(rgb = 0; rgb < 3; rgb++)
 			{
-				of << image[((height - h - 1) * width + w) * 3 + rgb];
+				of << image[((height - h - 1) * width + (width - w - 1)) * 3 + rgb];
 			}
 		}
 	}
@@ -54,11 +54,9 @@ void Raytracer::renderScene()
 	double invHeight = 1 / double(height);
 	Color color;
 	
-	double fov = 30, aspectratio = double(width) / double(height);
+	double fov = scene.getCamera().getFov(), aspectratio = double(width) / double(height);
 	double angle = tan(M_PI * 0.5 * fov / double(180));
 
-
-	std::cout << "Angle : " << angle << std::endl;
 	std::cout << "Rendering scene ..." << std::endl;
 	
 	// Raytracing
@@ -76,8 +74,10 @@ void Raytracer::renderScene()
 			image[h * 3 * width + w * 3] = color.getRedUC();
 			image[h * 3 * width + w * 3 + 1] = color.getGreenUC();
 			image[h * 3 * width + w * 3 + 2] = color.getBlueUC();
+
+			//std::cout << "(" << h << ", " << w << ") {" << (int)image[h * 3 * width + w * 3] << ", " << (int)image[h * 3 * width + w * 3 + 1] << ", " << (int)image[h * 3 * width + w * 3 + 2] << "}" << std::endl;
 		}
-		//std::cout << "\tLine " << h << " rendered" << std::endl;
+		std::cout << "\tLine " << h << " rendered" << std::endl;
 	}
 
 	std::cout << "Rendering over!" << std::endl;
@@ -99,36 +99,35 @@ Ray Raytracer::createRay(double h, double w)
 	{
 		dir = Vec3d(w, h, -1.0);
 		dir.normalize();
-		//std::cout << "localRay Dir : " << dir << std::endl;
 	}
 	else
 	{
 		pos = Point3d(w, h, 0.0);
-		dir = Vec3d(0.0, 0.0, 1.0);
+		dir = Vec3d(0.0, 0.0, -1.0);
 	}
 
 	return Ray(pos, dir);
 }
 
-void Raytracer::launchRay(Ray ray, int depth, Color &color)
+void Raytracer::launchRay(const Ray &ray, int depth, Color &color)
 {
 	Point3d intersect;
 	Vec3d normal;
 	int numShape;
 	
-	//std::cout << ray.getDirection() << std::endl;
-
 	if (depth > 0)
 	{
 		if (calcIntersect(ray, intersect, normal, numShape))
 		{
 			color = calcAmbiantLight(scene.getShapes()[numShape], intersect);
 		}
+		else
+			color = Color(0.0, 0.0, 0.0);
 	}
 }
 
 /* calcule l'intersection la plus proche entre le rayon r et la scene s */
-bool Raytracer::calcIntersect(Ray ray, Point3d &intersectPoint, Vec3d &normalIntersect, int &num)
+bool Raytracer::calcIntersect(const Ray &ray, Point3d &intersectPoint, Vec3d &normalIntersect, int &num)
 {
 	Point3d zero;
 	Point3d intersect;
@@ -152,7 +151,7 @@ bool Raytracer::calcIntersect(Ray ray, Point3d &intersectPoint, Vec3d &normalInt
 	return foundIntersection;
 }
 
-Color Raytracer::calcAmbiantLight(Shape *shape, Point3d intersectPoint) const
+Color Raytracer::calcAmbiantLight(Shape *shape, const Point3d &intersectPoint) const
 {
 	Color objColor = shape->getAmbiantColor(intersectPoint);
 

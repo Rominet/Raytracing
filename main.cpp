@@ -3,24 +3,6 @@
 #include "Sphere.hpp"
 #include "Raytracer.hpp"
 
-//Scene * createFakeScene()
-//{
-//	Scene * s = new Scene();
-//
-//	Sphere *sph = new Sphere();
-//	sph->getTransform()->setPosition(Vec3d(-5.0, 6.0, -3.0));
-//
-//	Camera c;
-//	c.setWidth(640);
-//	c.setHeight(480);
-//
-//
-//	s->addShape(sph);
-//	s->addCamera(c);
-//
-//	return s;
-//}
-
 Scene  createFakeScene()
 {
 	Scene  s;
@@ -28,13 +10,22 @@ Scene  createFakeScene()
 	Sphere *sph = new Sphere();
 	sph->getTransform()->setPosition(Vec3d(-1.5, 3.0, -30.0));
 	sph->setAmbiantCoeff(Vec3d(1.0, 0.0, 0.0));
+	s.addShape(sph);
+
+	Sphere *sph2 = new Sphere(2.0);
+	sph2->getTransform()->setPosition(Vec3d(-2.26, -1.264, -30.0));
+	sph2->setAmbiantCoeff(Vec3d(1.0, 1.0, 0.0));
+	s.addShape(sph2);
+
+	Sphere *sph3 = new Sphere();
+	sph3->getTransform()->setPosition(Vec3d(-1.913, 1.80, -19.52));
+	sph3->setAmbiantCoeff(Vec3d(0.0, 1.0, 0.5));
+	s.addShape(sph3);
 
 	Camera c;
-	c.setWidth(240);
-	c.setHeight(160);
-
-
-	s.addShape(sph);
+	c.setWidth(640);
+	c.setHeight(480);
+	c.setProjectionType(CamProjectionType::ISOMETRIC);
 	s.addCamera(c);
 
 	return s;

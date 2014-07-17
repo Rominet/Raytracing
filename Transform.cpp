@@ -34,9 +34,6 @@ void Transform::calcTransformations()
 	calcTranslations();
 	calcRotations();
 	calcScaling();
-
-	std::cout << "Transform Mat" << transformation << std::endl;
-	std::cout << "Transform Mat Inv" << transformationInv << std::endl;
 }
 
 void Transform::calcTranslations()

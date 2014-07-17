@@ -19,10 +19,10 @@ private:
 	unsigned char *image;
 
 	void launchRays(double x, double y, Color &color);
-	void launchRay(Ray ray, int depth, Color &color);
+	void launchRay(const Ray &ray, int depth, Color &color);
 	Ray createRay(double h, double w);
-	bool calcIntersect(Ray r, Point3d &intersectPoint, Vec3d &normalIntersect, int &numShape);
-	Color calcAmbiantLight(Shape *shape, Point3d intersectPoint) const;
+	bool calcIntersect(const Ray &r, Point3d &intersectPoint, Vec3d &normalIntersect, int &numShape);
+	Color calcAmbiantLight(Shape *shape, const Point3d &intersectPoint) const;
 
 public:
 	Raytracer(Scene s);

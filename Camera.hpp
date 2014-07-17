@@ -9,7 +9,7 @@ enum CamProjectionType { PERSPECTIVE, ISOMETRIC };
 class Camera
 {
 protected:
-	double focal;
+	double fov;
 	CamProjectionType projectionType;
 	int width;
 	int height;
@@ -20,8 +20,8 @@ public:
 	Camera();
 	virtual ~Camera();
 
-	inline void setFocal(double focal) { this->focal = focal; }
-	inline double getFocal() const { return this->focal; }
+	inline void setFov(double focal) { this->fov = focal; }
+	inline double getFov() const { return this->fov; }
 
 	inline void setProjectionType(CamProjectionType projectionType) { this->projectionType = projectionType;  }
 	inline CamProjectionType getProjectType() const { return this->projectionType; }
