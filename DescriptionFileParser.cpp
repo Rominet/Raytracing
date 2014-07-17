@@ -85,7 +85,14 @@ void DescriptionFileParser::convertStringToBlock(std::string blockString)
 	}
 	else if(stringStartWith(blockString, "object"))
 	{
-
+		std::istringstream stringStream(blockString);
+		std::string line;
+		std::getline(stringStream, line);
+		if("sphere" == parseLine<std::string>(line))
+		{
+			Sphere sph = parseSphereBlock(blockString);
+			_sceneToReturn.addShape(&sph);
+		}
 	}
 }
 
@@ -188,7 +195,7 @@ Sphere DescriptionFileParser::parseSphereBlock(std::string blockString)
 	Sphere sphereToAdd;
 
 	Transform trans = parseTransformBlock(blockString);
-	sphereToAdd.setTransform(trans.getPosition(), trans.getRotation(), trans.getScale);
+	sphereToAdd.setTransform(trans.getPosition(), trans.getRotation(), trans.getScale());
 
 	while(std::getline(stringStream, line))
 	{
@@ -198,11 +205,15 @@ Sphere DescriptionFileParser::parseSphereBlock(std::string blockString)
 		}
 		else if(stringStartWith(line, "difuse_coeff"))
 		{
-			sphereToAdd.setHeight(parseLine<int>(line));
+			sphereToAdd.setDifuseCoeff(parseLine<Vec3d>(line));
 		}
 		else if(stringStartWith(line, "spec_coeff"))
 		{
-
+			sphereToAdd.setSpecularCoeff(parseLine<Vec3d>(line));
+		}
+		else if(stringStartWith(line, "alpha"))
+		{
+			sphereToAdd.setAlpha(parseLine<float>(line));
 		}
 	}
 
