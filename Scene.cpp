@@ -22,6 +22,7 @@ void Scene::addShape(Shape *s)
 
 void Scene::addCamera(Camera c)
 {
+	//this->camera.setTransform(c.getTransform());
 	this->camera.setFocal(c.getFocal());
 	this->camera.setWidth(c.getWidth());
 	this->camera.setHeight(c.getHeight());

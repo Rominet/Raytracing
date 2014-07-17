@@ -31,5 +31,24 @@ public:
 	
 	inline void setHeight(int height) { this->height = height; }
 	inline int getHeight() const { return this->height; }
+
+	inline Transform* getTransform() const
+	{
+		return transform;
+	}
+
+	inline void setTransformValue(Transform transform)
+	{
+		this->transform->setPosition(transform.getPosition());
+		this->transform->setRotation(transform.getRotation());
+		this->transform->setScale(transform.getScale());
+	}
+
+	inline void setTransform(Transform* transform)
+	{
+		this->transform->setPosition(transform->getPosition());
+		this->transform->setRotation(transform->getRotation());
+		this->transform->setScale(transform->getScale());
+	}
 };
 

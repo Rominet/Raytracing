@@ -2,6 +2,7 @@
 #include "Scene.hpp"
 #include "Sphere.hpp"
 #include "Raytracer.hpp"
+#include "DescriptionFileParser.hpp"
 
 //Scene * createFakeScene()
 //{
@@ -40,17 +41,35 @@ Scene  createFakeScene()
 	return s;
 }
 
+//int main(int argc, char** argv)
+//{
+//	Scene s = createFakeScene();
+//
+//
+//	
+//	Raytracer rt(s);
+//
+//	rt.renderScene();
+//	rt.saveScene("rendu.ppm");
+//
+//
+//	return (0);
+//}
+
 int main(int argc, char** argv)
 {
-	Scene s = createFakeScene();
+	DescriptionFileParser parser("scene.rtscn");
 
+	parser.parseFile();
 
-	
-	Raytracer rt(s);
-
-	rt.renderScene();
-	rt.saveScene("rendu.ppm");
-
-
+	Scene scn = parser.getScene();
+	std::cout << scn.getModel().getAmbiant() << std::endl;
+	std::cout << scn.getModel().getThreshold() << std::endl;
+	std::cout << scn.getModel().getDepth() << std::endl;
+	std::cout << std::endl;
+	std::cout << scn.getCamera().getFocal() << std::endl;
+	std::cout << scn.getCamera().getHeight() << std::endl;
+	std::cout << scn.getCamera().getWidth() << std::endl;
+	std::cout << scn.getCamera().getProjectType() << std::endl;
 	return (0);
 }

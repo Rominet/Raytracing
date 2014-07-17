@@ -79,7 +79,9 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="Cube.hpp" />
+    <ClInclude Include="DescriptionFileParser.hpp" />
     <ClInclude Include="Matrix.hpp" />
+    <ClInclude Include="Model.hpp" />
     <ClInclude Include="Point3d.hpp" />
     <ClInclude Include="Ray.hpp" />
     <ClInclude Include="Raytracer.hpp" />
@@ -93,7 +95,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="DescriptionFileParser.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Point3d.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Raytracer.cpp" />

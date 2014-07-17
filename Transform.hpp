@@ -29,6 +29,9 @@ public:
 	Vec3d getRotation() const { return this->rotation; }
 	void setRotation(Vec3d rotation) { this->rotation.setValues(rotation); }
 	Vec3d getScale() const { return this->scale; }
-	void setScale(Vec3d scale) { this->scale.setValues(scale); }
+	void setScale(Vec3d scale)
+	{
+		this->scale.setValues(scale);
+	}
 };
 
