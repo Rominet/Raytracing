@@ -54,9 +54,11 @@ void Raytracer::renderScene()
 	double invHeight = 1 / double(height);
 	Color color;
 	
-	double fov = 30, aspectratio = width / double(height);
+	double fov = 30, aspectratio = double(width) / double(height);
 	double angle = tan(M_PI * 0.5 * fov / double(180));
 
+
+	std::cout << "Angle : " << angle << std::endl;
 	std::cout << "Rendering scene ..." << std::endl;
 	
 	// Raytracing
@@ -95,8 +97,9 @@ Ray Raytracer::createRay(double h, double w)
 
 	if (c.getProjectType() == CamProjectionType::PERSPECTIVE)
 	{
-		dir = Vec3d(w, h, 1.0);
+		dir = Vec3d(w, h, -1.0);
 		dir.normalize();
+		//std::cout << "localRay Dir : " << dir << std::endl;
 	}
 	else
 	{

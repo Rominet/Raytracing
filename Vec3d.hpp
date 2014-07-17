@@ -6,9 +6,9 @@ class Vec3d : public Matrix<double, 1, 3>
 {
 public:
 	Vec3d();
-	Vec3d(const Matrix<double, 1, 3> a, const Matrix<double, 1, 3> b);
+	Vec3d(const Matrix<double, 1, 3> &a, const Matrix<double, 1, 3> &b);
 	Vec3d(double x, double y, double z);
-	Vec3d(const Matrix<double, 1, 4> m);
+	Vec3d(const Matrix<double, 4, 1> &m);
 	~Vec3d(void);
 	
 	Vec3d normalize();

@@ -24,23 +24,27 @@ double Sphere::getRadius() const
 
 bool Sphere::isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &intersectNormal) const
 {
-	Ray localRay = ray.getLocalRay(getTransform());
+	Ray localRay = ray.getLocalRay(*getTransform());
+
+	//std::cout << "localRay Origin : " << localRay.getOrigin() << std::endl;
+	//std::cout << "localRay Dir : " << localRay.getDirection() << std::endl;
+
 	Point3d localCenter;
 
 	double OH = Vec3d(localRay.getOrigin(), localCenter).scalarProduct(localRay.getDirection());
 	if (OH < 0)
 		return false;
 	
-	double R² = pow(this->getRadius(), 2);
-	double CH² = Vec3d(localRay.getOrigin(), localCenter).squareMagnitude() - pow(OH, 2);
-	if (CH² > R²)
+	double sqrR = pow(this->getRadius(), 2);
+	double sqrCH = Vec3d(localRay.getOrigin(), localCenter).squareMagnitude() - pow(OH, 2);
+	if (sqrCH > sqrR)
 		return false;
 
-	double d² = R² - CH²;
+	double sqrD = sqrR - sqrCH;
 
 	// Calculate tmin
-	double t1 = OH + sqrt(d²);
-	double t2 = OH - sqrt(d²);
+	double t1 = OH + sqrt(sqrD);
+	double t2 = OH - sqrt(sqrD);
 	double tmin;
 
 	if (t1 > 0 && t2 > 0)
@@ -55,9 +59,14 @@ bool Sphere::isRayIntersecting(const Ray ray, Point3d &intersectPoint, Vec3d &in
 	// Find intersection point
 	Matrix<double, 1, 3> dirMultTmin = localRay.getDirection() * tmin;
 	Matrix<double, 1, 3> localIntersectPoint = localRay.getOrigin() + dirMultTmin;
-	Matrix<double, 4, 4> transformation = getTransform().getTransformation();
+	Matrix<double, 4, 4> transformation = getTransform()->getTransformation();
 
-	intersectPoint = toHomogenous(localIntersectPoint) * transformation;
-	intersectNormal = toHomogenous(Vec3d(getTransform().getPosition(), intersectPoint).normalize()) * transformation;
+	std::cout << "Intersection!" << std::endl;
+
+	intersectPoint = transformation * toHomogenous(localIntersectPoint);
+	intersectNormal = transformation * toHomogenous(Vec3d(getTransform()->getPosition(), intersectPoint).normalize());
+
+	std::cout << intersectPoint << std::endl;
+
 	return true;
 }

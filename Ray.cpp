@@ -33,11 +33,10 @@ Vec3d Ray::getDirection() const
 
 Ray Ray::getLocalRay(Transform transform) const
 {
-	Matrix<double, 1, 4> localOrig = toHomogenous(this->getOrigin());
-	Matrix<double, 1, 4> localDir = toHomogenous(this->getDirection());
+	Matrix<double, 4, 1> localOrig = toHomogenous(this->origin);
 
-	localOrig *= transform.getTransformationInv();
-	localDir *= transform.getTransformationInv();
+	Matrix<double, 4, 4> transformInv = transform.getTransformationInv();
+	localOrig = transformInv * localOrig;
 
-	return Ray(Point3d(localOrig), Vec3d(localDir));
+	return Ray(Point3d(localOrig), this->direction);
 }
