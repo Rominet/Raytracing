@@ -34,6 +34,9 @@ void Transform::calcTransformations()
 	calcTranslations();
 	calcRotations();
 	calcScaling();
+
+	std::cout << "Transform Mat" << transformation << std::endl;
+	std::cout << "Transform Mat Inv" << transformationInv << std::endl;
 }
 
 void Transform::calcTranslations()
@@ -42,7 +45,7 @@ void Transform::calcTranslations()
 	Matrix<double, 4, 4> translateMatInv = createTranslateMatrix(-position[0], -position[1], -position[2]);
 
 	transformation = translateMat * transformation;
-	transformationInv = translateMatInv * transformation;
+	transformationInv = translateMatInv * transformationInv;
 }
 
 void Transform::calcRotations()
@@ -51,16 +54,16 @@ void Transform::calcRotations()
 	Matrix<double, 4, 4> rotateMatInv = createXRotateMatrix(-rotation[0]) * createYRotateMatrix(-rotation[1]) * createZRotateMatrix(-rotation[2]);
 
 	transformation = rotateMat * transformation;
-	transformationInv = rotateMatInv * transformation;
+	transformationInv = rotateMatInv * transformationInv;
 
 }
 
 void Transform::calcScaling()
 {
 	Matrix<double, 4, 4> scaleMat = createScaleMatrix(scale[0], scale[1], scale[2]);
-	Matrix<double, 4, 4> scaleMatInv = createScaleMatrix(-scale[0], -scale[1], -scale[2]);
+	Matrix<double, 4, 4> scaleMatInv = createScaleMatrix(1.0 / scale[0], 1.0 / scale[1], 1.0 / scale[2]);
 
 	transformation = scaleMat * transformation;
-	transformationInv = scaleMatInv * transformation;
+	transformationInv = scaleMatInv * transformationInv;
 }
 

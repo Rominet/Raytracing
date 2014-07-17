@@ -5,12 +5,12 @@ Vec3d::Vec3d()
 
 }
 
-Vec3d::Vec3d(const Matrix<double, 1, 4> m)
+Vec3d::Vec3d(const Matrix<double, 4, 1> &m)
 {
 	setValues(fromHomogenous(m).getValues(), 3);
 }
 
-Vec3d::Vec3d(const Matrix<double, 1, 3> a, const Matrix<double, 1, 3> b)
+Vec3d::Vec3d(const Matrix<double, 1, 3> &a, const Matrix<double, 1, 3> &b)
 {
 	this->_values[0] = b.getValues()[0] - a.getValues()[0];
 	this->_values[1] = b.getValues()[1] - a.getValues()[1];

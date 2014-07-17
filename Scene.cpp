@@ -16,7 +16,7 @@ Scene::~Scene()
 
 void Scene::addShape(Shape *s)
 {
-	s->getTransform().calcTransformations();
+	s->getTransform()->calcTransformations();
 	shapes.push_back(s);
 }
 

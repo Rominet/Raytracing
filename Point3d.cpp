@@ -5,7 +5,7 @@ Point3d::Point3d()
 
 }
 
-Point3d::Point3d(const Matrix<double, 1, 4> m)
+Point3d::Point3d(const Matrix<double, 4, 1> m)
 {
 	setValues(fromHomogenous(m).getValues(), 3);
 }

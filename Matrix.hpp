@@ -293,26 +293,26 @@ Matrix<T, 4, 4> createTranslateMatrix(T tx, T ty, T tz)
 }
 
 template<typename T>
-Matrix<T, 1, 4> toHomogenous(const Matrix <T, 1, 3> vect)
+Matrix<T, 4, 1> toHomogenous(const Matrix <T, 1, 3> vect)
 {
-	Matrix<T, 1, 4> m(vect.getValues(), 3);
+	Matrix<T, 4, 1> m(vect.getValues(), 3);
 	
-	m(0, 3) = 1;
+	m(3, 0) = 1;
 	return  m;
 }
 
-template<typename T, unsigned int Cols>
-Matrix<T, 1, Cols - 1> fromHomogenous(const Matrix<T, 1, Cols> &m)
+template<typename T, unsigned int Rows>
+Matrix<T, Rows -1, 1> fromHomogenous(const Matrix<T, Rows, 1> &m)
 {
-	T* tempValue = new T[Cols - 1];
-	T last = m.getValues()[Cols - 1];
+	T* tempValue = new T[Rows - 1];
+	T last = m.getValues()[Rows - 1];
 
-	for (int i = 0; i < Cols - 1; i++)
+	for (int i = 0; i < Rows - 1; i++)
 	{
 		if (last != 0)
 			tempValue[i] = m.getValues()[i] / last;
 	}
-	return Matrix<T, 1, Cols - 1>(tempValue, Cols - 1);
+	return Matrix<T, Rows - 1, 1>(tempValue, Rows - 1);
 }
 
 //typedef Matrix<double, 1, 3> Vec3d;

@@ -26,12 +26,12 @@ Scene  createFakeScene()
 	Scene  s;
 
 	Sphere *sph = new Sphere();
-	sph->getTransform().setPosition(Vec3d(-5.0, 6.0, -3.0));
+	sph->getTransform()->setPosition(Vec3d(-1.5, 3.0, -30.0));
 	sph->setAmbiantCoeff(Vec3d(1.0, 0.0, 0.0));
 
 	Camera c;
-	c.setWidth(120);
-	c.setHeight(120);
+	c.setWidth(240);
+	c.setHeight(160);
 
 
 	s.addShape(sph);

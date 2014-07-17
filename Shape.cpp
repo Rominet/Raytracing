@@ -2,12 +2,14 @@
 
 Shape::Shape(void)
 {
+	transform = new Transform();
 }
 
 
 Shape::~Shape(void)
 {
-
+	delete transform;
+	std::cout << "Delete Transform" << std::endl;
 }
 
 Color Shape::getAmbiantColor(Point3d intersect) const
@@ -17,7 +19,7 @@ Color Shape::getAmbiantColor(Point3d intersect) const
 
 void Shape::setTransform(Vec3d position, Vec3d rotation, Vec3d scale)
 {
-	this->transform.setPosition(position);
-	this->transform.setRotation(rotation);
-	this->transform.setScale(scale);
+	this->transform->setPosition(position);
+	this->transform->setRotation(rotation);
+	this->transform->setScale(scale);
 }
